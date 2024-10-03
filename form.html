@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Service Request Form</title>
+    <link rel="stylesheet" href="./Teststyle.css">
+</head>
+<body>
+    <div class="header-container">
+        <div class="logo">
+            <img src="./IT.png" alt="Logo" class="logo-image">
+        </div>
+        <div class="company-name">
+            <h1>VIBE HOME IT</h1>
+        </div>
+        <div class="hamburger" id="hamburger-menu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    <!-- Form Section -->
+    <div class="form-container">
+        <h2>Service Request Form</h2>
+        <form id="serviceForm" action="submit_form.php" method="POST">
+            <!-- Pre-filled Service Input -->
+            <div class="form-group">
+                <label for="service">Service Selected</label>
+                <input type="text" id="service" name="service" readonly>
+            </div>
+
+            <!-- User's Issue Description -->
+            <div class="form-group">
+                <label for="details">Describe your issue</label>
+                <textarea id="details" name="details" rows="5" placeholder="Please describe your issue in detail"></textarea>
+            </div>
+
+            <!-- User Contact Info -->
+            <div class="form-group">
+                <label for="email">Your Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label for="phone">Your Phone Number</label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+
+            <!-- Service Type Selection -->
+            <div class="form-group">
+                <label for="serviceType">Preferred Service Type</label>
+                <select id="serviceType" name="serviceType" required>
+                    <option value="remote">Remote</option>
+                    <option value="onsite">Onsite</option>
+                </select>
+            </div>
+
+            <!-- Membership Plan Selection -->
+            <div class="form-group">
+                <label for="membership">Select Membership (Optional)</label>
+                <select id="membership" name="membership">
+                    <option value="none">No Membership</option>
+                    <option value="basic">Basic Membership ($19.99/month)</option>
+                    <option value="premium">Premium Membership ($49.99/month)</option>
+                    <option value="ultimate">Ultimate Membership ($99.99/month)</option>
+                </select>
+            </div>
+
+            <!-- Display Total Price -->
+            <div class="form-group">
+                <label>Total Price</label>
+                <p id="totalPrice">$0.00</p>
+            </div>
+
+            <!-- Agreement Checkbox -->
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="agreeToService" name="agreeToService" required>
+                    I agree to the service and the associated costs.
+                </label>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn" disabled id="submitBtn">Submit Request</button>
+        </form>
+    </div>
+
+    <script>
+        // Get the service from the URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const service = urlParams.get('service');
+        const serviceType = document.getElementById('serviceType');
+        const membership = document.getElementById('membership');
+        const totalPriceElement = document.getElementById('totalPrice');
+        const agreeToService = document.getElementById('agreeToService');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Set prices for services
+        const servicePrices = {
+            "Home Network Setup": 99.99,
+            "PC & Laptop Repair": 149.99,
+            "Virus Removal & Security": 79.99,
+            "Data Backup & Recovery": 129.99
+        };
+
+        // Set membership prices
+        const membershipPrices = {
+            "none": 0,
+            "basic": 19.99,
+            "premium": 49.99,
+            "ultimate": 99.99
+        };
+
+        // Set additional fee for onsite services
+        const onsiteFee = 75.00;
+
+        // Fill the service input field with the selected service
+        if (service) {
+            document.getElementById('service').value = service;
+        }
+
+        // Calculate and update the total price based on service type and membership
+        function updateTotalPrice() {
+            const basePrice = servicePrices[service] || 0;
+            const membershipPrice = membershipPrices[membership.value] || 0;
+            
+            let totalPrice = basePrice;
+            
+            // Apply discount if membership is selected
+            const isMembershipSelected = membership.value !== 'none';
+            const discount = isMembershipSelected ? 0.10 : 0;
+            
+            // Calculate price with discount applied
+            totalPrice = totalPrice - (totalPrice * discount);
+            
+            // Add onsite fee and apply discount if applicable
+            if (serviceType.value === 'onsite') {
+                const discountedOnsiteFee = onsiteFee - (onsiteFee * discount);
+                totalPrice += discountedOnsiteFee;
+            }
+            
+            // Add membership price
+            totalPrice += membershipPrice;
+
+            // Update the total price displayed to the user
+            totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        // Enable the submit button only if the user agrees to the service
+        agreeToService.addEventListener('change', function () {
+            submitBtn.disabled = !agreeToService.checked;
+        });
+
+        // Update price when the service type or membership changes
+        serviceType.addEventListener('change', updateTotalPrice);
+        membership.addEventListener('change', updateTotalPrice);
+
+        // Initial price calculation
+        updateTotalPrice();
+    </script>
+</body>
+</html>

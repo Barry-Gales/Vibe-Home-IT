@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Contact Us - Vibe Home IT</title>
+    <link rel="stylesheet" href="./Teststyle.css">
+</head>
+<body>
+    <!-- Header Section (Same as your other pages) -->
+    <div class="header-container">
+        <div class="logo">
+            <img src="./IT.png" alt="Logo" class="logo-image">
+        </div>
+        <div class="company-name">
+            <h1>VIBE HOME IT</h1>
+        </div>
+        <div class="hamburger" id="hamburger-menu">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <nav id="navigation-bar" aria-label="Main navigation">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="contact-container">
+        <h2>Contact Us</h2>
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+            <h3><strong>Get in Touch</strong></h3>
+            <form action="submit_contact.php" method="POST">
+                <div class="form-group">
+                    <label for="name">Your Name</label>
+                    <input type="text" id="name" name="name" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Your Email</label>
+                    <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="message">Your Message</label>
+                    <textarea id="message" name="message" rows="5" placeholder="Enter your message" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+
+        <!-- Additional Contact Information -->
+        <div class="contact-info">
+            <h3><strong>Other Ways to Reach Us</strong></h3>
+            <ul>
+                <li><strong>Email:</strong> <strong>support@vibehomeit.com</strong></li>
+            </ul>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer-container">
+        <p>&copy; 2024 Vibe Home IT. All rights reserved.</p>
+        <div class="social-links">
+            <a href="#">Facebook</a> | 
+            <a href="#">Twitter</a> | 
+            <a href="#">LinkedIn</a>
+        </div>
+    </footer>
+
+    <script src="./TestVibe.js"></script>
+</body>
+</html>
